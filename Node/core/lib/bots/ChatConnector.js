@@ -546,6 +546,13 @@ var ChatConnector = (function () {
             'channelData': 'sourceEvent'
         });
         msg.text = msg.text || '';
+        if(/<at id=".*">@.*<\/at>/i.test(msg.text)) {
+            if(/<at id=".*">@.*<\/at>.*<a href=".*">(.*)<\/a>/i.test(msg.text)){
+                msg.text = /<at id=".*">@.*<\/at>.*<a href=".*">(.*)<\/a>/i.exec(msg.text)[1];
+            }else {
+                msg.text = msg.text.split(">")[2].trim();
+            }
+        }
         msg.attachments = msg.attachments || [];
         msg.entities = msg.entities || [];
         var address = {};
